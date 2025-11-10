@@ -35,7 +35,7 @@ Organizes AI by what it *does* and how it operates internally:[^2][^5]
 
 ## 3. AI Learning Paradigm Hierarchy
 
-Classifies AI systems by *how they learn* and what data they use:[^1][^7]
+Classifies AI systems by *how they learn* and what data they use:
 
 
 | Learning Approach | Description | Example Models |
