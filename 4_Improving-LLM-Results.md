@@ -4,7 +4,7 @@ This document explains the strategies shown in your pyramid diagram for improvin
 
 ***
 
-## 1. Overview of Strategies
+## 1. Overview of Strategies (from the Pyramid)
 
 | Layer | Description | Example Use Case |
 | :-- | :-- | :-- |
@@ -144,3 +144,14 @@ This document explains the strategies shown in your pyramid diagram for improvin
 - **Iterate:** Regularly review outputs and refine prompts, search quality, and training data.
 
 ***
+
+## 10. Additional References (for Further Study)
+
+- [OpenAI Cookbook](https://github.com/openai/openai-cookbook)
+- [LangChain Documentation](https://langchain.dev/)
+- [Hugging Face Course](https://huggingface.co/course/chapter1)
+- [Retrieval Augmented Generation (RAG) Paper](https://ai.facebook.com/blog/retrieval-augmented-generation/)
+
+***
+[^1]: Screenshot-2025-11-10-224807.jpg
+

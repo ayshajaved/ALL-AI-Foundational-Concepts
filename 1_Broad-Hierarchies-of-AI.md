@@ -35,7 +35,7 @@ Organizes AI by what it *does* and how it operates internally:[^2][^5]
 
 ## 3. AI Learning Paradigm Hierarchy
 
-Classifies AI systems by *how they learn* and what data they use:
+Classifies AI systems by *how they learn* and what data they use:[^1][^7]
 
 
 | Learning Approach | Description | Example Models |
@@ -136,4 +136,26 @@ AI systems often span stack-like layers:
 - **By domain:** NLP, CV, Speech, Robotics, Recommender, Technical AI, Human-Machine
 - **By tech stack/process:** Core, foundation, applied, agentic, frontier systems
 
+Use this as a reference map for structuring your AI, ML, and generative model knowledge repository.
+<span style="display:none">[^3][^8]</span>
+
+<div align="center">⁂</div>
+
+[^1]: https://www.icaew.com/insights/viewpoints-on-the-news/2024/nov-2024/types-of-ai-how-are-they-classified
+
+[^2]: https://www.bmc.com/blogs/artificial-intelligence-types/
+
+[^3]: https://www.rpatech.ai/hierarchy-of-ai/
+
+[^4]: https://mindmapai.app/mind-mapping/full-ai-mindmap-hierarchy
+
+[^5]: https://www.ibm.com/think/topics/artificial-intelligence-types
+
+[^6]: https://iianalytics.com/uploads/portal-supplemental-resources/IIA-Research-AI-Hierarchy.pdf?v=1741282675
+
+[^7]: https://www.neuralconcept.com/post/major-fields-of-artificial-intelligence-and-their-applications
+
+[^8]: https://www.linkedin.com/pulse/understanding-hierarchy-artificial-intelligence-ai-rpatech-lepgc
+
+[^9]: https://en.wikipedia.org/wiki/Artificial_intelligence
 
