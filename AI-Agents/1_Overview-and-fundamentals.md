@@ -3,7 +3,74 @@
 Artificial Intelligence (AI) agents are autonomous systems capable of perceiving their environment, reasoning about it, making decisions, and executing actions to achieve specific goals. They leverage techniques from machine learning, natural language processing, symbolic reasoning, and multi-modal perception to operate effectively in complex, dynamic environments.
 
 Unlike traditional software, AI agents demonstrate autonomy, adaptability, learning, and multi-step problem-solving, enabling them to function with minimal human intervention.
+
+## What makes up the AI Agent?
+### 1. Domain Models (Core Intelligence)
+**Description:**  
+Core intelligence represents the heart of the AI agent. It enables reasoning, decision-making, and processing inputs from different modalities such as text, images, or structured data. This intelligence drives the agent’s cognitive functions.
+
+**Examples:**  
+- GPT-4.5  
+- GPT-40  
+- GPT-40-mini  
+
 ---
+
+### 2. Tools (Enable actions/Interfaces to the World)  
+**Description:**  
+Tools enable the agent to interact with the external environment. This includes function calling (APIs, services), web searches, file system access, and computer control.
+
+**Examples:**  
+- Function calling APIs  
+- Web search integration  
+- File search capabilities  
+- Computer use automation (e.g., opening apps, running scripts)  
+
+---
+
+### 3. Knowledge and Memory(Informs decisions and actions)
+**Description:**  
+To augment an agent’s intelligence, external and persistent knowledge bases are integrated, enabling the agent to recall past interactions, access large datasets, or retrieve domain-specific information dynamically.
+
+**Examples:**  
+- Vector stores (embedding-based retrieval)  
+- File search with indexing  
+- Embedding databases for semantic search  
+
+---
+
+### 4. Audio and Speech  
+**Description:**  
+Agents equipped with audio and speech capabilities can understand spoken input and generate natural language responses via speech, enabling more natural, accessible interactions.
+
+**Examples:**  
+- Real-time audio generation  
+- Speech recognition and speech-to-text processing  
+- Audio-based conversational agents  
+
+---
+
+### 5. Guardrails (Safety and Moderation)  
+**Description:**  
+Guardrails protect against undesirable or harmful agent behavior by mediating content and guiding the agent’s actions according to predefined rules and policies.
+
+**Examples:**  
+- Moderation filters for content safety  
+- Instruction hierarchies that guide agent behavior  
+- Reinforcement learning with human feedback (RLHF) to reduce biases  
+
+---
+
+### 6. Orchestration (Development and Monitoring)  
+**Description:**  
+Orchestration frameworks support the lifecycle of AI agents, from development and deployment to monitoring and continuous improvement. They provide tools to trace decision paths, evaluate performance, and fine-tune models.
+
+**Examples:**  
+- Agents SDK for building and deploying agents  
+- Tracing tools to log interactions and reasoning steps  
+- Evaluation platforms for agent performance  
+- Fine-tuning pipelines for model adaptation  
+
 
 ## Key Types and Taxonomy of AI Agents
 
