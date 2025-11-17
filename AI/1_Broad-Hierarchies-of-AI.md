@@ -1,3 +1,6 @@
+# AI
+Artificial intelligence refers to a computer programs that can complete cognitive tasks typically associated with human intelligence.
+
 # The Broad Hierarchies of Artificial Intelligence (AI)
 
 This structured guide collects **all major broad AI hierarchies** as recognized in research, industry, and technical literature. Categories are presented by capability, learning paradigm, technical methodology, application domain, and functional approach. Each major hierarchy table includes representative examples for clarity.

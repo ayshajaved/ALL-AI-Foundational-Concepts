@@ -2,6 +2,9 @@
 
 This guide brings together **all the main techniques for customizing and improving large language model (LLM) results**, with clear explanations, step-by-step practical guidance, and side-by-side differences. It includes Gemini 2.5 Flash and models like GPT, covering:
 
+## Prompting:
+Prompting is the process of providing specific instructions to a GenAI tool to receive new information or to achieve a desired outcome on a task.
+
 - Prompt engineering
 - Prompt tuning (soft prompt tuning)
 - Fine-tuning (supervised model tuning)
