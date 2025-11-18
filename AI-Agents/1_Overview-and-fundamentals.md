@@ -105,7 +105,105 @@ AI agents can be organized by **capability levels** reflecting their problem-sol
 - **Physical/Robotic Agents:** Embodied agents interacting physically with the world via sensors and actuators.
 
 ---
+## AI Workflow Types: Basis for Differentiation and Expert Guide
 
+AI workflows can be categorized into three main types based on their **level of autonomy**, **execution style**, **human involvement**, and **adaptive decision-making** capability. Understanding these distinctions is essential for designing, implementing, and deploying AI systems with appropriate intelligence and independence.
+
+---
+
+## Basis for Differentiation of AI Workflow Types
+
+| Criterion               | Non-Agentic Workflow                    | Agentic Workflow                           | Truly Autonomous AI Agent                        |
+|------------------------|---------------------------------------|-------------------------------------------|-------------------------------------------------|
+| **Level of Autonomy**   | Low; fixed single-pass execution      | Moderate; stepwise with guided iteration  | High; fully self-directed and iterative          |
+| **Execution Style**     | One-pass, no revisions or refinements | Step-by-step breakdown with feedback loop | Dynamic workflow, continuous adaptation          |
+| **Human Involvement**   | High; outputs direct response         | Moderate; human feedback guides refinement | Minimal/none; AI self-supervises and plans       |
+| **Adaptive Decision-Making** | None                            | Some; adapts based on human feedback      | Full; AI dynamically adjusts for best outcomes   |
+
+These criteria determine how the AI system processes tasks, interacts with humans, and improves results.
+
+---
+
+## Detailed Expert Guide to AI Workflow Types
+
+### 1. Non-Agentic Workflow
+
+- **Description:**  
+  AI completes a task in a single run without iteration or adjustment. There is no mechanism to refine or revise outputs.
+- **Execution:**  
+  Straight-forward, reactive systems designed for quick, direct answers.
+- **Applications:**  
+  Basic chatbots, instant translation, fixed query-answering systems.
+- **Example:**  
+  A virtual assistant answering "What is the weather today?" in a single pass without follow-up action.
+- **Related Concepts:**  
+  - *Single-pass execution*  
+  - *Reactive systems*  
+  - *Stateless processing*
+
+---
+
+### 2. Agentic Workflow
+
+- **Description:**  
+  AI breaks complex tasks into multiple steps (planning, researching, drafting, revising), iterating based on human guidance or intermediate results.
+- **Execution:**  
+  Iterative, interactive workflows where AI and humans collaborate in cycles.
+- **Applications:**  
+  Content drafting with human-in-the-loop editing, AI-assisted medical diagnosis with expert review.
+- **Example:**  
+  AI drafts an email, receives user feedback, revises the draft, and finalizes it.
+- **Related Concepts:**  
+  - *Task decomposition*  
+  - *Human-in-the-loop*  
+  - *Feedback loops*  
+  - *Incremental learning*  
+  - *Stepwise refinement*
+
+---
+
+### 3. Truly Autonomous AI Agent
+
+- **Description:**  
+  Fully independent AI autonomously determines its plan, selects tools, executes tasks, and self-iterates without human intervention.
+- **Execution:**  
+  Dynamic, self-adaptive workflows capable of decision-making, error correction, and goal optimization.
+- **Applications:**  
+  Autonomous robot navigation, self-managing virtual assistants, AI agents performing complex multi-step problem solving.
+- **Example:**  
+  An AI assistant that autonomously manages calendar scheduling, books meetings, adjusts to cancellations, and optimizes the user’s agenda.
+- **Related Concepts:**  
+  - *Self-supervised decision-making*  
+  - *Multi-agent collaboration*  
+  - *Meta-learning*  
+  - *Adaptive planning*  
+  - *Goal-oriented behavior*  
+  - *Reinforcement learning*
+
+---
+
+## Additional Concepts and Terms Related to AI Workflows
+
+- **Feedback Loop:** Mechanism where AI learns and improves based on evaluation of its own outputs, often guided by humans.
+- **Task Planning:** Breaking down complex problems into smaller, manageable parts.
+- **Tool Selection:** Autonomous choice of algorithms, APIs, or modules by AI based on task requirements.
+- **Multi-turn Interaction:** Dialogue or iterative processing spanning multiple exchanges or stages.
+- **Adaptive Learning:** AI’s ability to modify its behavior based on new data or environment changes.
+- **Human-in-the-Loop (HITL):** Integration of human judgment to guide or correct AI decisions.
+- **Explainability and Transparency:** Ensuring AI decisions and workflows are understandable by users and stakeholders.
+- **Safety and Alignment:** Designing AI workflows to adhere to ethical, fairness, and safety constraints.
+
+---
+
+## Summary Table
+
+| AI Workflow Type       | Autonomy  | Execution Style       | Human Involvement | Adaptive Decision-Making | Typical Use Cases                           |
+|-----------------------|-----------|----------------------|------------------|-------------------------|---------------------------------------------|
+| Non-Agentic           | Low       | One-pass             | High             | None                    | Simple queries, fixed responses, calculators |
+| Agentic               | Moderate  | Stepwise, iterative  | Moderate         | Some                    | Collaborative drafting, assisted decision-making |
+| Truly Autonomous Agent| High      | Dynamic, continuous  | Minimal or None  | Full                    | Robotics, autonomous virtual assistants    |
+
+---
 ## Agent Architectures
 
 Key architectures driving AI agents include:
