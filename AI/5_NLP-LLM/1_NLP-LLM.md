@@ -17,6 +17,8 @@ This file provides a **brief, beginner-friendly description of Natural Language 
 **Large Language Models (LLMs)** are advanced AI systems trained on *massive* amounts of text data. LLMs use deep learning techniques built primarily on **transformer architectures** which excel at understanding and generating language.
 Data --> Architecture --> Training --> LLM
 
+LLMs--> Neural network that is trained to predict the next term in an input sequence.
+
 - **Examples of architectures** used in LLMs:
     - Transformer (most common in LLMs like GPT, BERT)
     - Encoder-Decoder (used in translation models)
