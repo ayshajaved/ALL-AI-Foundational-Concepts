@@ -188,6 +188,240 @@ H =  [∂²f/∂x₂∂x₁  ∂²f/∂x₂²    ...  ∂²f/∂x₂∂xₙ]
 
 ---
 
+## ⚡ Computational Complexity
+
+### Gradient Computation Complexity
+
+| Operation | Forward Pass | Backward Pass | Total | Notes |
+|-----------|-------------|---------------|-------|-------|
+| Scalar function | O(1) | O(1) | O(1) | Single derivative |
+| Gradient (n vars) | O(f) | O(n·f) | O(n·f) | f = function cost |
+| Hessian (n vars) | O(f) | O(n²·f) | O(n²·f) | Expensive! |
+| Jacobian (m×n) | O(m·f) | O(m·n·f) | O(m·n·f) | Matrix output |
+
+### Automatic Differentiation
+
+**Forward Mode:**
+- Complexity: O(n) for n inputs
+- Best for: Few inputs, many outputs
+- Example: f: ℝ¹⁰ → ℝ¹⁰⁰⁰
+
+**Reverse Mode (Backpropagation):**
+- Complexity: O(m) for m outputs  
+- Best for: Many inputs, few outputs
+- Example: f: ℝ¹⁰⁰⁰ → ℝ¹ (typical in ML!)
+
+---
+
+## 🛡️ Numerical Stability
+
+### Critical Issues
+
+**1. Vanishing Gradients**
+```python
+# Problem: Sigmoid saturates
+x = np.array([-10, -5, 0, 5, 10])
+sigmoid = lambda x: 1 / (1 + np.exp(-x))
+sigmoid_grad = lambda x: sigmoid(x) * (1 - sigmoid(x))
+
+print(sigmoid_grad(x))  # [0, 0.007, 0.25, 0.007, 0]
+# Gradients vanish for |x| > 5!
+
+# Solution: Use ReLU or careful initialization
+```
+
+**2. Exploding Gradients**
+```python
+# Problem: Repeated multiplication
+gradients = [2.0] * 100  # Each layer multiplies by 2
+total_gradient = np.prod(gradients)  # 2^100 = overflow!
+
+# Solutions:
+# 1. Gradient clipping
+max_norm = 1.0
+if np.linalg.norm(grad) > max_norm:
+    grad = grad * (max_norm / np.linalg.norm(grad))
+
+# 2. Batch normalization
+# 3. Residual connections
+```
+
+**3. Numerical Gradient Checking**
+```python
+def gradient_check(f, grad_f, x, epsilon=1e-7, threshold=1e-5):
+    """
+    Verify analytical gradient against numerical gradient
+    
+    Returns:
+        relative_error: Should be < 1e-5 for correct implementation
+    """
+    # Numerical gradient
+    grad_numerical = np.zeros_like(x)
+    for i in range(len(x)):
+        x_plus = x.copy()
+        x_minus = x.copy()
+        x_plus[i] += epsilon
+        x_minus[i] -= epsilon
+        grad_numerical[i] = (f(x_plus) - f(x_minus)) / (2 * epsilon)
+    
+    # Analytical gradient
+    grad_analytical = grad_f(x)
+    
+    # Relative error
+    numerator = np.linalg.norm(grad_numerical - grad_analytical)
+    denominator = np.linalg.norm(grad_numerical) + np.linalg.norm(grad_analytical)
+    relative_error = numerator / (denominator + 1e-8)
+    
+    if relative_error < threshold:
+        print(f"✅ Gradient check PASSED (error: {relative_error:.2e})")
+    else:
+        print(f"❌ Gradient check FAILED (error: {relative_error:.2e})")
+        print(f"Numerical: {grad_numerical}")
+        print(f"Analytical: {grad_analytical}")
+    
+    return relative_error
+
+# Example
+f = lambda x: np.sum(x**2)
+grad_f = lambda x: 2*x
+x = np.array([1.0, 2.0, 3.0])
+gradient_check(f, grad_f, x)
+```
+
+**4. Softmax Numerical Stability**
+```python
+# BAD: Overflow for large values
+def softmax_unstable(x):
+    return np.exp(x) / np.sum(np.exp(x))
+
+# GOOD: Subtract max for stability  
+def softmax_stable(x):
+    x_shifted = x - np.max(x)
+    return np.exp(x_shifted) / np.sum(np.exp(x_shifted))
+
+# Test
+x = np.array([1000, 1001, 1002])  # Large values
+print(softmax_unstable(x))  # NaN!
+print(softmax_stable(x))    # Works!
+```
+
+---
+
+## 🎓 Advanced Topics
+
+### Matrix Calculus
+
+**Essential Rules for Neural Networks:**
+
+```
+1. ∂(Ax)/∂x = Aᵀ
+2. ∂(xᵀA)/∂x = A
+3. ∂(xᵀAx)/∂x = (A + Aᵀ)x
+4. ∂tr(AB)/∂A = Bᵀ
+5. ∂|A|/∂A = |A|(A⁻¹)ᵀ  (determinant)
+```
+
+**Example: Linear Layer Gradient**
+```python
+# Forward: y = Wx + b
+# Loss: L = ||y - y_true||²
+
+# Gradients:
+# ∂L/∂W = ∂L/∂y · ∂y/∂W = (y - y_true) ⊗ xᵀ
+# ∂L/∂b = ∂L/∂y = (y - y_true)
+# ∂L/∂x = ∂L/∂y · ∂y/∂x = Wᵀ(y - y_true)
+
+def linear_layer_gradients(W, x, b, y_true):
+    """Compute all gradients for linear layer"""
+    # Forward
+    y = W @ x + b
+    
+    # Backward
+    dL_dy = y - y_true
+    dL_dW = np.outer(dL_dy, x)  # Outer product
+    dL_db = dL_dy
+    dL_dx = W.T @ dL_dy
+    
+    return dL_dW, dL_db, dL_dx
+```
+
+### Jacobian and Hessian-Vector Products
+
+**Jacobian** (for vector-valued functions):
+```python
+# f: ℝⁿ → ℝᵐ
+# J = [∂fᵢ/∂xⱼ]
+
+import jax
+import jax.numpy as jnp
+
+def f(x):
+    return jnp.array([x[0]**2 + x[1], x[0] * x[1]])
+
+# Jacobian
+jac_f = jax.jacobian(f)
+x = jnp.array([1.0, 2.0])
+print(jac_f(x))
+# [[2, 1],
+#  [2, 1]]
+```
+
+**Hessian-Vector Product** (efficient for large dimensions):
+```python
+# Instead of computing full Hessian (O(n²)),
+# compute Hv directly (O(n))
+
+def hvp(f, x, v):
+    """Hessian-vector product: Hv"""
+    return jax.jvp(jax.grad(f), (x,), (v,))[1]
+
+# Example
+f = lambda x: jnp.sum(x**2)
+x = jnp.array([1.0, 2.0, 3.0])
+v = jnp.array([1.0, 0.0, 0.0])
+
+print(hvp(f, x, v))  # [2, 0, 0] (first column of Hessian)
+```
+
+### Automatic Differentiation Theory
+
+**Forward Mode AD:**
+```python
+# Compute derivative alongside function evaluation
+# Uses dual numbers: x + x'ε where ε² = 0
+
+class Dual:
+    def __init__(self, value, derivative):
+        self.v = value
+        self.d = derivative
+    
+    def __add__(self, other):
+        return Dual(self.v + other.v, self.d + other.d)
+    
+    def __mul__(self, other):
+        # (a + a'ε)(b + b'ε) = ab + (a'b + ab')ε
+        return Dual(self.v * other.v, 
+                   self.d * other.v + self.v * other.d)
+
+# Example: f(x) = x²
+x = Dual(3.0, 1.0)  # x=3, dx/dx=1
+y = x * x
+print(f"f(3) = {y.v}, f'(3) = {y.d}")  # 9, 6
+```
+
+**Reverse Mode AD (Backpropagation):**
+```
+1. Forward pass: Compute function value, store intermediate results
+2. Backward pass: Compute gradients using chain rule
+
+Memory: O(n) where n = number of operations
+Time: O(n) for gradient w.r.t. all inputs
+
+This is why backprop is efficient for ML!
+```
+
+---
+
 ## 💻 Practical Workflows
 
 ### NumPy Implementation

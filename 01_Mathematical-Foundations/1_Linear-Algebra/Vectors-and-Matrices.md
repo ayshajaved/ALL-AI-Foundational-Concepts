@@ -257,6 +257,181 @@ Each row = word vector
 
 ---
 
+## ⚡ Computational Complexity
+
+### Operation Complexity
+
+| Operation | Time Complexity | Space | Notes |
+|-----------|----------------|-------|-------|
+| Vector addition | O(n) | O(n) | Element-wise |
+| Dot product | O(n) | O(1) | Single pass |
+| Vector norm | O(n) | O(1) | Sum + sqrt |
+| Matrix-vector mult | O(mn) | O(m) | m×n matrix |
+| Matrix-matrix mult | O(mnp) | O(mp) | m×n × n×p |
+| Transpose | O(1) | O(1) | View only (NumPy) |
+
+### Scalability Considerations
+
+**Small Dimensions (n < 1000):**
+- Use dense matrices
+- Standard NumPy operations
+- No special optimization needed
+
+**Medium Dimensions (1000 < n < 100,000):**
+- Consider sparse matrices if >90% zeros
+- Use optimized BLAS libraries
+- Batch operations when possible
+
+**Large Dimensions (n > 100,000):**
+- **Must use sparse matrices**
+- Distributed computing (Dask, Ray)
+- Approximate methods (randomized algorithms)
+
+---
+
+## 🛡️ Numerical Stability
+
+### Critical Issues in Production
+
+**1. Overflow/Underflow**
+```python
+# BAD: Can overflow
+exp_values = np.exp(large_numbers)
+
+# GOOD: Subtract max for stability
+exp_values = np.exp(large_numbers - np.max(large_numbers))
+```
+
+**2. Loss of Precision**
+```python
+# BAD: Catastrophic cancellation
+result = (a + b) - (a + c)  # If a >> b,c
+
+# GOOD: Rearrange
+result = b - c
+```
+
+**3. Ill-Conditioned Matrices**
+```python
+# Check condition number before inversion
+cond = np.linalg.cond(A)
+if cond > 1e10:
+    print(f"Warning: Matrix is ill-conditioned (κ={cond:.2e})")
+    # Use regularization or pseudo-inverse
+    A_reg = A + 1e-6 * np.eye(A.shape[0])
+```
+
+**4. Normalization Issues**
+```python
+# BAD: Division by zero
+normalized = v / np.linalg.norm(v)
+
+# GOOD: Add epsilon
+normalized = v / (np.linalg.norm(v) + 1e-8)
+```
+
+### Production Best Practices
+
+✅ **Always check for:**
+- NaN values: `np.isnan(A).any()`
+- Inf values: `np.isinf(A).any()`
+- Condition number: `np.linalg.cond(A)`
+- Rank deficiency: `np.linalg.matrix_rank(A)`
+
+✅ **Use stable algorithms:**
+- `np.linalg.solve()` instead of `np.linalg.inv()`
+- `np.linalg.lstsq()` for overdetermined systems
+- SVD for rank-deficient matrices
+
+---
+
+## 🎓 Advanced Topics
+
+### Linear Independence
+
+**Definition:** Vectors v₁, v₂, ..., vₙ are **linearly independent** if:
+```
+c₁v₁ + c₂v₂ + ... + cₙvₙ = 0  ⟹  c₁ = c₂ = ... = cₙ = 0
+```
+
+**Check in NumPy:**
+```python
+def are_linearly_independent(vectors):
+    """Check if column vectors are linearly independent"""
+    A = np.column_stack(vectors)
+    rank = np.linalg.matrix_rank(A)
+    return rank == len(vectors)
+
+# Example
+v1 = np.array([1, 0, 0])
+v2 = np.array([0, 1, 0])
+v3 = np.array([1, 1, 0])  # Linear combination of v1, v2
+
+print(are_linearly_independent([v1, v2]))  # True
+print(are_linearly_independent([v1, v2, v3]))  # True (still independent)
+```
+
+### Span and Basis
+
+**Span:** Set of all linear combinations
+```
+span(v₁, v₂, ..., vₙ) = {c₁v₁ + c₂v₂ + ... + cₙvₙ : cᵢ ∈ ℝ}
+```
+
+**Basis:** Linearly independent set that spans the space
+```python
+# Standard basis for ℝ³
+e1 = np.array([1, 0, 0])
+e2 = np.array([0, 1, 0])
+e3 = np.array([0, 0, 1])
+
+# Any vector in ℝ³ can be written as combination
+v = 2*e1 + 3*e2 + 4*e3  # [2, 3, 4]
+```
+
+### Vector Spaces
+
+**Column Space (Range):** Span of column vectors
+```python
+def column_space_basis(A):
+    """Find basis for column space"""
+    Q, R = np.linalg.qr(A)
+    rank = np.linalg.matrix_rank(A)
+    return Q[:, :rank]
+```
+
+**Null Space (Kernel):** Solutions to Ax = 0
+```python
+def null_space(A, tol=1e-10):
+    """Find basis for null space"""
+    U, s, Vt = np.linalg.svd(A)
+    null_mask = s < tol
+    return Vt[null_mask].T
+```
+
+### Outer Product
+
+**Definition:** u ⊗ v = uvᵀ (rank-1 matrix)
+```python
+u = np.array([1, 2, 3])
+v = np.array([4, 5])
+
+# Outer product
+A = np.outer(u, v)
+print(A.shape)  # (3, 2)
+print(np.linalg.matrix_rank(A))  # 1 (rank-1 matrix)
+```
+
+**Application:** Building matrices from vectors
+```python
+# Covariance matrix from centered data
+X_centered = X - X.mean(axis=0)
+Cov = (X_centered.T @ X_centered) / (len(X) - 1)
+# Each term is an outer product!
+```
+
+---
+
 ## 💻 Practical Workflows
 
 ### NumPy Implementation
