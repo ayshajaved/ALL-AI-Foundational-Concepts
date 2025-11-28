@@ -4,6 +4,21 @@
 
 ---
 
+## 📜 Historical Context
+
+| Year | Architecture | Innovation | Impact |
+|------|--------------|------------|--------|
+| **1998** | **LeNet-5** | Convolution + Pooling | First successful digit recognition (MNIST) |
+| **2012** | **AlexNet** | ReLU + Dropout + GPU | ImageNet breakthrough, deep learning boom |
+| **2014** | **VGG** | Small 3x3 filters | Showed depth matters (16-19 layers) |
+| **2014** | **GoogLeNet** | Inception modules | Efficient multi-scale processing |
+| **2015** | **ResNet** | Skip connections | Solved vanishing gradient (100+ layers) |
+| **2017** | **DenseNet** | Feature reuse | Parameter efficiency |
+| **2019** | **EfficientNet** | Compound scaling | Optimal width/depth/resolution balance |
+| **2021** | **ConvNeXt** | Modernized CNN | Competing with Vision Transformers |
+
+---
+
 ## 🎯 LeNet-5 (1998)
 
 ```python

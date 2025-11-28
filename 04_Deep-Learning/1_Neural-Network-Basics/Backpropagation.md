@@ -101,6 +101,116 @@ print(f"\nPredictions:\n{predictions}")
 
 ---
 
+## 📊 Gradient Flow Visualization
+
+### Monitoring Gradients
+
+```python
+import matplotlib.pyplot as plt
+
+def plot_grad_flow(named_parameters):
+    """Visualize gradient flow through network"""
+    ave_grads = []
+    max_grads = []
+    layers = []
+    
+    for n, p in named_parameters:
+        if p.requires_grad and p.grad is not None:
+            layers.append(n)
+            ave_grads.append(p.grad.abs().mean().item())
+            max_grads.append(p.grad.abs().max().item())
+    
+    plt.figure(figsize=(12, 6))
+    plt.bar(np.arange(len(max_grads)), max_grads, alpha=0.3, lw=1, color="c")
+    plt.bar(np.arange(len(max_grads)), ave_grads, alpha=0.3, lw=1, color="b")
+    plt.hlines(0, 0, len(ave_grads)+1, lw=2, color="k")
+    plt.xticks(range(0, len(ave_grads), 1), layers, rotation="vertical")
+    plt.xlim(left=0, right=len(ave_grads))
+    plt.ylim(bottom=-0.001, top=0.02)
+    plt.xlabel("Layers")
+    plt.ylabel("Average gradient")
+    plt.title("Gradient flow")
+    plt.grid(True)
+    plt.legend([Line2D([0], [0], color="c", lw=4),
+                Line2D([0], [0], color="b", lw=4)],
+               ['max-gradient', 'mean-gradient'])
+    plt.tight_layout()
+    plt.show()
+
+# Usage during training
+model = MLP(784, [128, 64], 10)
+optimizer = optim.Adam(model.parameters())
+
+for epoch in range(10):
+    for batch_x, batch_y in dataloader:
+        outputs = model(batch_x)
+        loss = criterion(outputs, batch_y)
+        
+        optimizer.zero_grad()
+        loss.backward()
+        
+        # Plot gradient flow
+        if epoch == 0:  # First epoch
+            plot_grad_flow(model.named_parameters())
+        
+        optimizer.step()
+```
+
+### Vanishing Gradient Example
+
+```python
+# Demonstrate vanishing gradients with deep sigmoid network
+class DeepSigmoidNet(nn.Module):
+    def __init__(self, depth=10):
+        super().__init__()
+        layers = []
+        for i in range(depth):
+            layers.append(nn.Linear(100, 100))
+            layers.append(nn.Sigmoid())  # Sigmoid causes vanishing gradients
+        self.network = nn.Sequential(*layers)
+    
+    def forward(self, x):
+        return self.network(x)
+
+# Train and observe gradient norms
+deep_model = DeepSigmoidNet(depth=10)
+x = torch.randn(32, 100)
+y = torch.randn(32, 100)
+
+output = deep_model(x)
+loss = nn.MSELoss()(output, y)
+loss.backward()
+
+# Check gradient norms per layer
+print("Gradient norms (vanishing with depth):")
+for i, (name, param) in enumerate(deep_model.named_parameters()):
+    if param.grad is not None:
+        grad_norm = param.grad.norm().item()
+        print(f"Layer {i}: {grad_norm:.6f}")
+```
+
+### Gradient Clipping
+
+```python
+# Prevent exploding gradients
+max_grad_norm = 1.0
+
+for epoch in range(10):
+    for batch_x, batch_y in dataloader:
+        outputs = model(batch_x)
+        loss = criterion(outputs, batch_y)
+        
+        optimizer.zero_grad()
+        loss.backward()
+        
+        # Clip gradients
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_grad_norm)
+        
+        optimizer.step()
+```
+
+---
+
 ## 📈 PyTorch Autograd
 
 ```python
