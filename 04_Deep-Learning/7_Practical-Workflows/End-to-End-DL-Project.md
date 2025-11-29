@@ -70,4 +70,37 @@ async def predict(file: UploadFile = File(...)):
 
 ---
 
+## 🐳 Docker Deployment
+
+Production-ready `Dockerfile` for PyTorch/FastAPI.
+
+```dockerfile
+# 1. Base Image (Official PyTorch)
+FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
+
+# 2. Set working directory
+WORKDIR /app
+
+# 3. Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 4. Copy code
+COPY . .
+
+# 5. Expose port
+EXPOSE 8000
+
+# 6. Run command
+CMD ["uvicorn", "inference:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+**Build and Run:**
+```bash
+docker build -t my-dl-app .
+docker run -p 8000:8000 --gpus all my-dl-app
+```
+
+---
+
 **You are now a Deep Learning Practitioner!**

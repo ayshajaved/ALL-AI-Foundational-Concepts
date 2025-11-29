@@ -102,6 +102,41 @@ print(f"Output shape: {out.shape}") # (10, 20, 512)
 
 ---
 
+## 👁️ Visualizing Attention
+
+Understanding what the model focuses on is crucial for interpretability.
+
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def plot_attention(attention_weights, tokens):
+    """
+    Plots attention weights as a heatmap.
+    
+    Args:
+        attention_weights: (seq_len, seq_len) numpy array
+        tokens: List of strings (words/subwords)
+    """
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(attention_weights, 
+                xticklabels=tokens, 
+                yticklabels=tokens, 
+                cmap='viridis', 
+                annot=False)
+    plt.xlabel('Keys (Source)')
+    plt.ylabel('Queries (Target)')
+    plt.title('Self-Attention Heatmap')
+    plt.show()
+
+# Example Usage
+# Assume 'attn_output_weights' is (seq_len, seq_len) from the model
+tokens = ["The", "animal", "didn't", "cross", "the", "street", "because", "it", "was", "tired"]
+# plot_attention(attn_output_weights, tokens)
+```
+
+---
+
 ## 🎓 Interview Focus
 
 1.  **Why divide by $\sqrt{d_k}$?**

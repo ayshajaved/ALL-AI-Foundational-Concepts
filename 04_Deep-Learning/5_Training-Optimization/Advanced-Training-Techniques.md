@@ -80,6 +80,27 @@ class LargeModel(nn.Module):
 
 ---
 
+## 📊 GPU Memory Profiling
+
+Debugging OOM (Out of Memory) errors requires visibility.
+
+```python
+def print_gpu_memory():
+    if torch.cuda.is_available():
+        allocated = torch.cuda.memory_allocated() / 1024**3
+        reserved = torch.cuda.memory_reserved() / 1024**3
+        print(f"GPU Memory: Allocated: {allocated:.2f} GB | Reserved: {reserved:.2f} GB")
+    else:
+        print("CUDA not available")
+
+# Usage
+print_gpu_memory()
+outputs = model(inputs)
+print_gpu_memory() # Check increase
+```
+
+---
+
 ## 🎓 Interview Focus
 
 1.  **What is the benefit of Mixed Precision?**

@@ -99,4 +99,29 @@ print(f"GRU Output: {output.shape}")  # (5, 8, 20)
 
 ---
 
+## 🧠 Toy Task: The "Copy" Problem
+
+Prove LSTM is better than RNN.
+**Task:** Remember a sequence of random integers and repeat it after a delay.
+
+```python
+# 1. Generate Data
+# Input:  [1, 3, 5, 0, 0, 0] (0 is padding/delay)
+# Target: [0, 0, 0, 1, 3, 5]
+
+# 2. Train both models
+rnn = VanillaRNN(...)
+lstm = LSTM(...)
+
+# 3. Result
+# RNN Loss: Stagnates (Gradients vanish over the delay)
+# LSTM Loss: Converges to zero (Cell state carries info)
+```
+
+**Why it happens:**
+In Vanilla RNN, the gradient $\frac{\partial h_t}{\partial h_{t-k}}$ decays exponentially with $k$.
+In LSTM, the gradient flows through the cell state $C_t$ with a factor of $\approx 1$ (if forget gate is open), preserving the signal indefinitely.
+
+---
+
 **LSTM & GRU: The workhorses of sequence modeling!**
